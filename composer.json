@@ -1,0 +1,21 @@
+{
+    "name": "egosaw/yii2-settings-management",
+    "description": "Manage settings",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","settings","management"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Yuri Freeman",
+            "email": "egosaw@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "egosaw\\settings\\": ""
+        }
+    }
+}
