@@ -29,7 +29,7 @@ class SettingsAction extends Action
      * @throws Exception
      * @throws ExitException
      */
-    public function init(): void
+    public function init()
     {
         $config_path = Yii::getAlias($this->config) . '.php';
 
