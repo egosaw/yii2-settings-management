@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: egoss
- * Date: 29.07.17
- * Time: 14:29
+ * @var array $attributes
  */
 
 use kartik\form\ActiveForm;
@@ -14,18 +11,27 @@ use yii\helpers\Html;
 if (Yii::$app->session->hasFlash('SettingsDynamicModel')) {
     echo Alert::widget([
         'options' => ['class' => 'alert-info'],
-        'body'    => Yii::$app->session->getFlash('SettingsDynamicModel'),
+        'body' => Yii::$app->session->getFlash('SettingsDynamicModel'),
     ]);
 }
+?>
+<div class="settings-update">
+    <div class="panel panel-default half">
+        <div class="panel-body">
+            <?php
 
-$form = ActiveForm::begin();
+            $form = ActiveForm::begin();
 
-echo Form::widget([
-    'model'      => $model,
-    'form'       => $form,
-    'attributes' => $attributes
-]);
+            echo Form::widget([
+                'model' => $model,
+                'form' => $form,
+                'attributes' => $attributes
+            ]);
 
-echo Html::submitButton('Save', ['class' => 'btn btn-primary']);
+            echo Html::submitButton('Сохранить', ['class' => 'btn btn-success']);
 
-ActiveForm::end();
+            ActiveForm::end();
+            ?>
+        </div>
+    </div>
+</div>

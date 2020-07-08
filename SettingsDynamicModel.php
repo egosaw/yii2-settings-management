@@ -1,19 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: egoss
- * Date: 29.07.17
- * Time: 15:38
- */
 
 namespace egosaw\settings;
 
+use yii\base\DynamicModel;
 
-class SettingsDynamicModel extends \yii\base\DynamicModel
+/**
+ * Class SettingsDynamicModel
+ * @package egosaw\settings
+ */
+class SettingsDynamicModel extends DynamicModel
 {
+    /**
+     * @var array
+     */
     public $attributeLabels = [];
 
-    public function attributeLabels()
+    /**
+     * @return array
+     */
+    public function attributeLabels(): array
     {
         return $this->attributeLabels;
     }

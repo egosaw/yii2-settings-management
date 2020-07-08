@@ -1,19 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: egoss
- * Date: 29.07.17
- * Time: 14:21
- */
 
 namespace egosaw\settings;
 
 use Yii;
 use yii\base\Action;
 use yii\base\ErrorException;
+use yii\base\Exception;
+use yii\base\ExitException;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 
+/**
+ * Class SettingsAction
+ * @package egosaw\settings
+ */
 class SettingsAction extends Action
 {
     public $config;
@@ -24,12 +24,18 @@ class SettingsAction extends Action
 
     protected $attributes;
 
-    public function init()
+    /**
+     * @throws ErrorException
+     * @throws Exception
+     * @throws ExitException
+     */
+    public function init(): void
     {
         $config_path = Yii::getAlias($this->config) . '.php';
 
-        if (!file_exists($config_path))
+        if (!file_exists($config_path)) {
             throw new ErrorException('Config file not exists');
+        }
 
         // load configuration
         $config = require($config_path);
@@ -59,8 +65,7 @@ class SettingsAction extends Action
             $attributes = $rule[0];
             $validator = $rule[1];
 
-            unset($rule[0]);
-            unset($rule[1]);
+            unset($rule[0], $rule[1]);
 
             $options = $rule;
 
@@ -78,13 +83,15 @@ class SettingsAction extends Action
 
                 $file = UploadedFile::getInstance($model, $attribute);
 
-                if ($file === null)
+                if ($file === null) {
                     continue;
+                }
 
                 $directory = Yii::getAlias($params['path']);
 
-                if (!file_exists($directory))
+                if (!file_exists($directory)) {
                     FileHelper::createDirectory($directory, $mode = 0775, $recursive = true);
+                }
 
                 $filename = $params['filename'] . '.' . $file->extension;
                 $path = $directory . '/' . $filename;
@@ -100,7 +107,7 @@ class SettingsAction extends Action
                 $settings->set($config['section'], $attribute, $value);
             }
 
-            Yii::$app->session->setFlash('SettingsDynamicModel', 'Saved');
+            Yii::$app->session->setFlash('SettingsDynamicModel', 'Данные успешно сохранены');
 
             $this->controller->refresh();
             Yii::$app->end();
@@ -108,12 +115,17 @@ class SettingsAction extends Action
 
         $this->model = $model;
         $this->attributes = $config['rows'];
+
+        return parent::init();
     }
 
-    public function run()
+    /**
+     * @return string
+     */
+    public function run(): string
     {
         return $this->controller->render($this->view, [
-            'model'      => $this->model,
+            'model' => $this->model,
             'attributes' => $this->attributes,
         ]);
     }
